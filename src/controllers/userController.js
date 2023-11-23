@@ -6,17 +6,19 @@ function indexScreen(req, res){
 
 async function cadastrarUsuario(req, res){
     const User = {
-        email: "teste",
-        senha: "123" 
+        email: req.body.email,
+        senha: req.body.senha 
     }
 
     try{
-        console.log('antes de salvar')
         const newUser = new Usuario(User);
         await newUser.save();
         let sucess = true;
+        res.render('index.html', {sucess})
         console.log("Cadastrado com sucesso")
     } catch (err){
+        let error = true;
+        res.render('index.html', {error})
         console.error(err)
     }
 }
