@@ -35,7 +35,7 @@ async function validarUsuario(req, res){
 
         if(usuario !== null){
             req.session.autorizado = true
-            req.session.user = user
+            req.session.user = usuario
             res.redirect("/home")
         } else {
             let auth_error = true
@@ -48,17 +48,22 @@ async function validarUsuario(req, res){
 
 function verificarAuth(req, res, next) {
     if(req.session.autorizado){
-        console.log("usuário autorizado");
+        console.log("user autorizado");
+        console.log(`id de sessão do user: ${req.session.user._id}`)
         next();
     }
     else{
-        console.log("usuário NÃO autorizado");
+        console.log("user não autorizado");
         res.redirect('/');
     }   
 }
 
-async function homeview(req, res){
+async function homeview(req, res) {
     try {
+        if (!req.session.user) {  
+            return res.redirect('/');  
+        }
+
         const produtos = await Produto.find({ usuario: req.session.user._id, indicador_ativo: 1 });
 
         res.render('home.html', { produtos });

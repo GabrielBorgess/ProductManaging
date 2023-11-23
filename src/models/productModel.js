@@ -8,6 +8,10 @@ const produtoSchema = new mongoose.Schema({
     descricao: {
         type: String
     },
+    valor: {
+        type: String,
+        required: true
+    },
     usuario: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

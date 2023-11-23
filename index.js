@@ -33,11 +33,11 @@ app.use(session({
   name: 'sessionId',  
   resave: false,
   saveUninitialized: false
-}))
+}));
 
 // Rotas
-app.use("/", require("./src/routes/rotasTeste"));
 app.use("/", require("./src/routes/userRoutes.js"));
+app.use("/", require("./src/routes/productRoutes.js"))
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
