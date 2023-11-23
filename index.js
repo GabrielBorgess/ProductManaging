@@ -9,14 +9,14 @@ const uri = 'mongodb+srv://gabrielborges:r9EgcwdibocFKTHJ@cluster0.b2xpxgf.mongo
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Erro de conexão ao MongoDB:'));
+db.on('error', console.error.bind(console, 'Não foi possível conectar a aplição ao banco de dados'));
 db.once('open', () => {
-  console.log('Conexão bem-sucedida ao MongoDB Atlas!');
+  console.log('Aplicação conectada ao Mongo');
 });
 
 //Crirar aplicação e portas
-const app = express();
 const PORT = 8080;
+const app = express();
 
 // Configuração do mustache
 app.engine('html', mustache())

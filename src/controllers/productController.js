@@ -1,4 +1,4 @@
-const Produto = require("../models/productModel");
+const Product = require("../models/productModel");
 
 async function cadastrarProduto(req, res){
     try {
@@ -8,9 +8,8 @@ async function cadastrarProduto(req, res){
             valor: req.body.value,
             usuario: req.session.user._id
         };
-
         
-        await Produto.create(produto);
+        await Product.create(produto);
         console.log("produto criado");
         res.redirect('/home');
 
