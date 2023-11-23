@@ -1,4 +1,5 @@
 const Usuario = require('../models/userModel');
+const Produto = require('../models/productModel');
 
 function indexScreen(req, res){
     res.render("index.html")
@@ -23,7 +24,60 @@ async function cadastrarUsuario(req, res){
     }
 }
 
+async function validarUsuario(req, res){
+    const user = {
+        email: req.body.email,
+        senha: req.body.senha
+    }
+
+    try{
+        const usuario = await Usuario.findOne({email: user.email, senha: user.senha})
+
+        if(usuario !== null){
+            req.session.autorizado = true
+            req.session.user = user
+            res.redirect("/home")
+        } else {
+            let auth_error = true
+            res.render("index.html", {auth_error})
+        }
+    } catch {
+        console.error(err)
+    }
+}
+
+function verificarAuth(req, res, next) {
+    if(req.session.autorizado){
+        console.log("usuário autorizado");
+        next();
+    }
+    else{
+        console.log("usuário NÃO autorizado");
+        res.redirect('/');
+    }   
+}
+
+async function homeview(req, res){
+    try {
+        const produtos = await Produto.find({ usuario: req.session.user._id, indicador_ativo: 1 });
+
+        res.render('home.html', { produtos });
+    } catch (erro_recupera_produtos) {
+        console.error(erro_recupera_produtos);
+        res.render('home.html', { erro_recupera_produtos });
+    }
+}
+
+function logOut(req, res) {
+    req.session.destroy();
+    res.redirect('/');
+}
+
 module.exports = {
     indexScreen,
-    cadastrarUsuario
+    cadastrarUsuario,
+    validarUsuario,
+    verificarAuth,
+    homeview,
+    logOut
 }

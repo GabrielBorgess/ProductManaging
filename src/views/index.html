@@ -26,12 +26,12 @@
                       error ao cadastrar usuário!
                     </div>
                     {{/error}}
-                    {{#erro_autenticacao}}
+                    {{#auth_error}}
                     <div class="alert alert-danger">
                       Erro ao autenticar usuário!
                     </div>
-                    {{/erro_autenticacao}}
-                    <form action="/autenticar" method="post">
+                    {{/auth_error}}
+                    <form action="/validarUsuario" method="post">
                         <div class="mb-1 mt-1">
                           <label for="email" class="form-label">Email:</label>
                           <input type="email" class="form-control" id="email" name="email">

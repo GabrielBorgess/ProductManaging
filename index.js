@@ -1,6 +1,7 @@
 const express = require("express");
 const mustache = require("mustache-express");
 const mongoose = require("mongoose");
+const session = require("express-session");
 
 //Conectar ao Mongo
 const uri = 'mongodb+srv://gabrielborges:r9EgcwdibocFKTHJ@cluster0.b2xpxgf.mongodb.net/?retryWrites=true&w=majority';
@@ -25,6 +26,14 @@ app.set('views', __dirname + '/src/views')
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
+
+//configurando sessao
+app.use(session({
+  secret: 'secret-token',
+  name: 'sessionId',  
+  resave: false,
+  saveUninitialized: false
+}))
 
 // Rotas
 app.use("/", require("./src/routes/rotasTeste"));
