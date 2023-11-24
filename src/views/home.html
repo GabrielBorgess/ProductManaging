@@ -21,7 +21,7 @@
             <input class="form-control form-control-dark" type="text" placeholder="Buscar" aria-label="Buscar">
         </div>
         <div class="col-3 d-flex align-items-center justify-content-md-end mt-3 mt-md-0">
-            <a class="btn btn-secondary" href="">Configurações</a>
+            {{#usuario}}<a class="btn btn-secondary" href="/editarUsuario/{{usuario}}">Configurações</a>{{/usuario}}
             <a class="btn btn-link" href="/sair">Sair</a>
         </div>
     </nav>
@@ -95,13 +95,23 @@
 
                 <div class="row my-4">
 
+                    {{#error}}
+                    <div class="alert alert-danger">
+                      error ao cadastrar usuário!
+                    </div>
+                    {{/error}}
+                    
                     {{#produtos}}
                     <div class="col-3 mt-3">
                         <div class="card">
-                            <h5 class="card-header {{estilo}}">{{titulo}}</h5>
+                            <h5 class="card-header {{estilo}}">{{nome}}</h5>
                             <div class="card-body">
-                                <h5 class="card-title">{{subtitulo}}</h5>
-                                <p class="card-text">{{texto}}</p>
+                                <h5 class="card-title">{{descricao}}</h5>
+                                <p class="card-text">{{valor}}</p>
+                                <a href="/editar/{{_id}}" class="btn btn-primary">Editar</a>
+                                <form action="/deletar/{{_id}}" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                </form>
                             </div>
                         </div>
                     </div>

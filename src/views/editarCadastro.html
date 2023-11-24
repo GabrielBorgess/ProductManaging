@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário</title>
+</head>
+<body>
+    <h1>Editar Usuário</h1>
+
+    <form action="/editarUsuario/{{usuario._id}}" method="POST">
+        <label for="email">Novo E-mail:</label>
+        <input type="email" id="email" name="email" value="{{usuario.email}}" required>
+
+        <label for="senha">Nova Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <!-- Adicione mais campos conforme necessário -->
+
+        <button type="submit">Atualizar Usuário</button>
+    </form>
+
+    <a href="/home">Voltar para a Página Inicial</a>
+</body>
+</html>

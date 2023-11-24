@@ -24,6 +24,32 @@ async function cadastrarUsuario(req, res){
     }
 }
 
+async function editarUsuarioScreen(req, res){
+    try {
+        const usuario = await Usuario.findById(req.params.id);
+        console.log(req.params.id)
+        res.render('editarCadastro.html', { usuario });
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+async function editarUsuario(req, res){
+    try {
+        const usuario = await Usuario.findById(req.params.id);
+
+        usuario.email = req.body.email;
+        usuario.senha = req.body.senha;
+
+        await usuario.save();
+
+        res.redirect('/home');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Erro interno do servidor');
+    }
+}
+
 async function validarUsuario(req, res){
     const user = {
         email: req.body.email,
@@ -63,10 +89,13 @@ async function homeview(req, res) {
         if (!req.session.user) {  
             return res.redirect('/');  
         }
+        
+        const produtos = await Produto.find({usuario: req.session.user._id});
 
-        const produtos = await Produto.find({ usuario: req.session.user._id, indicador_ativo: 1 });
+        const usuario = req.session.user._id
 
-        res.render('home.html', { produtos });
+        console.log('Produtos Recuperados:', produtos);
+        res.render('home.html', { produtos, usuario });
     } catch (erro_recupera_produtos) {
         console.error(erro_recupera_produtos);
         res.render('home.html', { erro_recupera_produtos });
@@ -81,6 +110,8 @@ function logOut(req, res) {
 module.exports = {
     indexScreen,
     cadastrarUsuario,
+    editarUsuarioScreen,
+    editarUsuario,
     validarUsuario,
     verificarAuth,
     homeview,
